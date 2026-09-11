@@ -1,78 +1,90 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <string>
+using namespace std;
 
-struct Team {
-    char name[50];
-    struct Team *next;
+#define MAX 100
+
+class ArrayStack {
+private:
+    string pages[MAX];
+    int top;
+
+public:
+    ArrayStack() {
+        top = -1;
+    }
+
+    bool isEmpty() {
+        return top == -1;
+    }
+
+    bool isFull() {
+        return top == MAX - 1;
+    }
+
+    void push(string page) {
+        if (isFull()) {
+            cout << "Stack Overflow!\n";
+            return;
+        }
+
+        pages[++top] = page;
+    }
+
+    string pop() {
+        if (isEmpty()) {
+            return "Stack Underflow";
+        }
+
+        return pages[top--];
+    }
+
+    string peek() {
+        if (isEmpty()) {
+            return "";
+        }
+
+        return pages[top];
+    }
 };
 
-struct Team *head = NULL;
-struct Team *tail = NULL;
-
-// Function to add a team
-void addTeam(char name[]) {
-    struct Team *newNode;
-
-    newNode = (struct Team *)malloc(sizeof(struct Team));
-    strcpy(newNode->name, name);
-
-    if (head == NULL) {
-        head = newNode;
-        tail = newNode;
-        newNode->next = head;
-    } else {
-        newNode->next = head;
-        tail->next = newNode;
-        tail = newNode;
-    }
-}
-
-// Function to simulate rounds
-void simulateRounds(int rounds) {
-    struct Team *current;
-    struct Team *temp;
-    int i;
-
-    if (head == NULL) {
-        printf("No teams available.\n");
-        return;
-    }
-
-    current = head;
-
-    for (i = 1; i <= rounds; i++) {
-        printf("\n--- Round %d ---\n", i);
-
-        temp = current;
-
-        do {
-            printf("%s gets a turn.\n", temp->name);
-            temp = temp->next;
-        } while (temp != current);
-
-        // Move starting position to next team
-        current = current->next;
-    }
-}
-
 int main() {
-    int n, rounds, i;
-    char name[50];
+    ArrayStack backStack;
 
-    printf("Enter number of teams: ");
-    scanf("%d", &n);
+    string currentPage = "Home";
 
-    for (i = 0; i < n; i++) {
-        printf("Enter team %d name: ", i + 1);
-        scanf("%s", name);
-        addTeam(name);
+    // Visit pages
+    cout << "Visiting: " << currentPage << endl;
+
+    backStack.push(currentPage);
+    currentPage = "Google";
+    cout << "Visiting: " << currentPage << endl;
+
+    backStack.push(currentPage);
+    currentPage = "YouTube";
+    cout << "Visiting: " << currentPage << endl;
+
+    backStack.push(currentPage);
+    currentPage = "Wikipedia";
+    cout << "Visiting: " << currentPage << endl;
+
+    // Back button
+    cout << "\nBack button pressed.\n";
+
+    currentPage = backStack.pop();
+
+    if (!currentPage.empty()) {
+        currentPage = backStack.peek();
+        cout << "Current page: " << currentPage << endl;
     }
 
-    printf("\nEnter number of rounds: ");
-    scanf("%d", &rounds);
+    cout << "\nBack button pressed.\n";
 
-    simulateRounds(rounds);
+    currentPage = backStack.pop();
+
+    if (!currentPage.empty()) {
+        cout << "Current page: " << currentPage << endl;
+    }
 
     return 0;
 }
