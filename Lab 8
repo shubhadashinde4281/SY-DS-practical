@@ -1,43 +1,36 @@
 #include <iostream>
 using namespace std;
 int main() {
-    int marks[100], asc[100], desc[100], n;
-    cout << "Enter number of students: ";
-    cin >> n;
-    if (n < 1 || n > 100) {
-        cout << "Invalid number of students!";
-        return 0;
-    }
-    cout << "Enter student marks:\n";
-    for (int i = 0; i < n; i++) {
-        cin >> marks[i];
-        asc[i] = marks[i];
-        desc[i] = marks[i];
-    }
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (asc[j] > asc[j + 1]) {
-                int temp = asc[j];
-                asc[j] = asc[j + 1];
-                asc[j + 1] = temp;
+    int id[] = {101, 102, 103, 104, 105};
+    int key, i, low = 0, high = 4, mid, choice;
+    cout<<"library managment system \n";
+    cout << "1. Linear Search\n2. Binary Search\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+    cout << "Enter Book ID: ";
+    cin >> key;
+    if (choice == 1) {
+        for (i = 0; i < 5; i++) {
+            if (id[i] == key) {
+                cout << "Book Found\n";
+                return 0;
             }
         }
+        cout << "Book Not Found\n";
     }
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (desc[j] < desc[j + 1]) {
-                int temp = desc[j];
-                desc[j] = desc[j + 1];
-                desc[j + 1] = temp;
+    else if (choice == 2) {
+        while (low <= high) {
+            mid = (low + high) / 2;
+            if (id[mid] == key) {
+                cout << "Book Found\n";
+                return 0;
             }
+            else if (id[mid] < key)
+                low = mid + 1;
+            else
+                high = mid - 1;
         }
+        cout << "Book Not Found\n";
     }
-    cout << "\nAscending Order: ";
-    for (int i = 0; i < n; i++)
-        cout << asc[i] << " ";
-
-    cout << "\nDescending Order: ";
-    for (int i = 0; i < n; i++)
-        cout << desc[i] << " ";
-    cout << endl;
     return 0;
+}
