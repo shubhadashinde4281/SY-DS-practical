@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+int main() {
+    int marks[100], asc[100], desc[100], n;
+    cout << "Enter number of students: ";
+    cin >> n;
+    if (n < 1 || n > 100) {
+        cout << "Invalid number of students!";
+        return 0;
+    }
+    cout << "Enter student marks:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> marks[i];
+        asc[i] = marks[i];
+        desc[i] = marks[i];
+    }
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (asc[j] > asc[j + 1]) {
+                int temp = asc[j];
+                asc[j] = asc[j + 1];
+                asc[j + 1] = temp;
+            }
+        }
+    }
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (desc[j] < desc[j + 1]) {
+                int temp = desc[j];
+                desc[j] = desc[j + 1];
+                desc[j + 1] = temp;
+            }
+        }
+    }
+    cout << "\nAscending Order: ";
+    for (int i = 0; i < n; i++)
+        cout << asc[i] << " ";
+
+    cout << "\nDescending Order: ";
+    for (int i = 0; i < n; i++)
+        cout << desc[i] << " ";
+    cout << endl;
+    return 0;
+}
